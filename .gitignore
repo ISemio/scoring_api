@@ -1,0 +1,10 @@
+*.pyc
+*.png
+*.ipynb
+.vscode
+.DS_Store
+input
+new_input
+dashboard_page1
+dashboard
+desktop.ini
