@@ -13,3 +13,4 @@ collection==0.1.6
 imblearn==0.0
 delayed==0.11.0b1 
 gunicorn
+flask
