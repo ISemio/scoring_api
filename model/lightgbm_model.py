@@ -31,7 +31,7 @@ import pickle
 from datetime import datetime
 from collections import Counter
 
-path = r"C:\Users\IS\Documents\Data Scientist\P7\P7_semionov_irina\P7_02_dossier\data\input\\"
+path = r"C:\Users\IS\Documents\Data Scientist\P7\P7_semionov_irina\P7_02_dossier\api\data\input\\"
 
 def build_model_input():
 
@@ -235,8 +235,31 @@ def train_model(data_, y_, folds_):
     feats = [f for f in data_.columns if f not in ['SK_ID_CURR']]
 
     for n_fold, (trn_idx, val_idx) in enumerate(folds_.split(data_, y_)):
-        trn_x, trn_y = data_[feats].iloc[trn_idx], y_.iloc[trn_idx]
-        val_x, val_y = data_[feats].iloc[val_idx], y_.iloc[val_idx]
+        trn_x, trn_y = data_.iloc[trn_idx], y_.iloc[trn_idx]
+        val_x, val_y = data_.iloc[val_idx], y_.iloc[val_idx]
+        print(trn_x)
+        print(trn_y)
+        # Applying combined random oversampling and undersampling for imbalanced data
+        print(Counter(trn_y))
+        # define oversampling strategy
+        over = RandomOverSampler(sampling_strategy=0.2)
+        # fit and apply the transform
+        trn_x, trn_y = over.fit_resample(trn_x, trn_y)
+        # summarize class distribution
+        print(Counter(trn_y))
+        # define undersampling strategy
+        under = RandomUnderSampler(sampling_strategy=0.7)
+        # fit and apply the transform
+        trn_x, trn_y = under.fit_resample(trn_x, trn_y)
+        # summarize class distribution
+        print(Counter(trn_y))
+        # define new data id
+        new_ids = pd.Series.append(trn_x['SK_ID_CURR'], val_x['SK_ID_CURR'])
+        print(new_ids)
+        print(new_ids.shape)
+
+        trn_x, trn_y = trn_x[feats], trn_y
+        val_x, val_y = val_x[feats], val_y
 
         # LightGBM parameters found by Bayesian optimization
         clf = LGBMClassifier(
@@ -281,7 +304,7 @@ def train_model(data_, y_, folds_):
 
 
     # oof full prediction evaluation
-    print('Full AUC score %.6f' % roc_auc_score(y, oof_preds))
+    #print('Full AUC score %.6f' % roc_auc_score(y, oof_preds))
 
     # gof prediction evaluation
     # Metrics
@@ -351,7 +374,7 @@ def train_model(data_, y_, folds_):
     df_gof_preds = pd.DataFrame({'SK_ID_CURR':ids, 'PREDICTION':gof_preds, 'TARGET':y})
     df_gof_preds = df_gof_preds[['SK_ID_CURR', 'PREDICTION', 'TARGET']]
     
-    return clf, oof_preds, df_oof_preds, df_gof_preds, feature_importance_df, roc_auc_score(y, oof_preds), df_report
+    return clf, oof_preds, df_oof_preds, df_gof_preds, feature_importance_df, roc_auc_score(y, oof_preds), df_report, new_ids
 
 
 def display_importances(feature_importance_df_):
@@ -479,21 +502,6 @@ if __name__ == '__main__':
     data = data.drop(columns=['TARGET'])
     print('Shape data: ', data.shape)
 
-    # Applying combined random oversampling and undersampling for imbalanced data
-    print(Counter(y))
-    # define oversampling strategy
-    over = RandomOverSampler(sampling_strategy=0.2)
-    # fit and apply the transform
-    data, y = over.fit_resample(data, y)
-    # summarize class distribution
-    print(Counter(y))
-    # define undersampling strategy
-    under = RandomUnderSampler(sampling_strategy=0.7)
-    # fit and apply the transform
-    data, y = under.fit_resample(data, y)
-    # summarize class distribution
-    print(Counter(y))
-
     # Processed data
     ids = data['SK_ID_CURR']
     data = data_prep(data)
@@ -505,7 +513,7 @@ if __name__ == '__main__':
     # Create Folds
     folds = StratifiedKFold(n_splits=5, shuffle=True, random_state=1001)
     # Train model and get oof predictions
-    clf, oof_preds, df_oof_preds, df_gof_preds, importances, score, df_report = train_model(data, y, folds)
+    clf, oof_preds, df_oof_preds, df_gof_preds, importances, score, df_report, new_ids = train_model(data, y, folds)
     # Save the model to disk
     pickle.dump(clf, open(path[:-12]+'src\\scoring_model' + '.sav', 'wb'))
     # Save train data predictions
@@ -556,13 +564,13 @@ if __name__ == '__main__':
 
     # Save processed data
     PROCESSED_DATA_PATH = path[:-12]+'src\\data_processed' + '.csv'
-    data = data.drop_duplicates()
-    data = data.merge(df_data_db, how='left', on='SK_ID_CURR')
-    data = data.merge(df_oof_preds, how='left', on='SK_ID_CURR')
-    print('data', data.shape)
+    sampled_data = df_oof_preds[df_oof_preds.SK_ID_CURR.isin(new_ids)]
+    sampled_data = sampled_data.merge(data, how='left', on='SK_ID_CURR')
+    sampled_data = sampled_data.merge(df_data_db, how='left', on='SK_ID_CURR')
+    print('sampled_data', sampled_data.shape)
     test = test.merge(df_test_db, how='left', on='SK_ID_CURR')
     print('test', test.shape)
-    processed_data = pd.concat([data, test])
+    processed_data = pd.concat([test, sampled_data])
     processed_data = processed_data.sample(n=25000, random_state=1, axis=0)
     print('processed_data', processed_data.shape)
     processed_data.to_csv(PROCESSED_DATA_PATH, index=False)
