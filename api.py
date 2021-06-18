@@ -10,8 +10,8 @@ from flask import request, jsonify
 app = flask.Flask(__name__)
 
 # Define path
-# ADD_DATA_PATH = r"C:\Users\IS\Documents\Data Scientist\P7\P7_semionov_irina\P7_02_dossier\src" +'\\'
-ADD_DATA_PATH = '../src/'
+#ADD_DATA_PATH = r"C:\Users\IS\Documents\Data Scientist\P7\P7_semionov_irina\P7_02_dossier\src" +'\\'
+ADD_DATA_PATH = 'src/'
 
 # Define external data
 cols_2_keep = pickle.load(open(ADD_DATA_PATH + 'cols_2_keep.sav', 'rb'))
