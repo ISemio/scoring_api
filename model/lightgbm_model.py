@@ -254,9 +254,9 @@ def train_model(data_, y_, folds_):
         # summarize class distribution
         print(Counter(trn_y))
         # define new data id
-        new_ids = pd.Series.append(trn_x['SK_ID_CURR'], val_x['SK_ID_CURR'])
-        print(new_ids)
-        print(new_ids.shape)
+        # new_ids = pd.Series.append(trn_x['SK_ID_CURR'], val_x['SK_ID_CURR'])
+        # print(new_ids)
+        # print(new_ids.shape)
 
         trn_x, trn_y = trn_x[feats], trn_y
         val_x, val_y = val_x[feats], val_y
@@ -297,22 +297,37 @@ def train_model(data_, y_, folds_):
 
         print('Fold %2d AUC : %.6f' %
               (n_fold + 1, roc_auc_score(val_y, oof_preds[val_idx])))
-        
-      
+              
         del trn_x, trn_y, val_x
         gc.collect()
+        
+        # gof prediction evaluation
+        # Metrics
+        print(gof_preds.shape)
+        print('Accuracy:', accuracy_score(val_y, gof_preds[val_idx]))
+        print('F1 score:', f1_score(val_y, gof_preds[val_idx]))
+        print('Recall:', recall_score(val_y, gof_preds[val_idx]))
+        print('Precision:', precision_score(val_y, gof_preds[val_idx]))
+                
+        # split into train/test sets with same class ratio
+        from sklearn.model_selection import train_test_split
+        trainX, testX, trainy, testy = train_test_split(data_, y_, test_size=0.33, random_state=2, stratify=y)
+        train_0, train_1 = len(trainy[trainy==0]), len(trainy[trainy==1])
+        test_0, test_1 = len(testy[testy==0]), len(testy[testy==1])
+        print('>Train: 0=%d, 1=%d, Test: 0=%d, 1=%d' % (train_0, train_1, test_0, test_1))
 
+        preds_score_y = clf.predict_proba(testX[feats], num_iteration=clf.best_iteration_)[:, 1]
+        preds_y = clf.predict(testX[feats], num_iteration=clf.best_iteration_)
+
+        # Metrics
+        print(preds_y.shape)
+        print('Accuracy:', accuracy_score(testy, preds_y))
+        print('F1 score:', f1_score(testy, preds_y))
+        print('Recall:', recall_score(testy, preds_y))
+        print('Precision:', precision_score(testy, preds_y))
 
     # oof full prediction evaluation
     #print('Full AUC score %.6f' % roc_auc_score(y, oof_preds))
-
-    # gof prediction evaluation
-    # Metrics
-    print(gof_preds.shape)
-    print('Accuracy:', accuracy_score(val_y, gof_preds[val_idx]))
-    print('F1 score:', f1_score(val_y, gof_preds[val_idx]))
-    print('Recall:', recall_score(val_y, gof_preds[val_idx]))
-    print('Precision:', precision_score(val_y, gof_preds[val_idx]))
     
     # Confusion matrix
     cf_matrix = confusion_matrix(val_y, gof_preds[val_idx])
@@ -329,10 +344,10 @@ def train_model(data_, y_, folds_):
     plt.title('Confusion matrix')
     plt.tight_layout()
     plt.savefig(path[:-12]+'graphs\\confusion_matrix.png')
-
+   
 
     # Full confusion matrix
-    cf_matrix = confusion_matrix(y, gof_preds)
+    cf_matrix = confusion_matrix(testy, preds_y)
     plt.figure(figsize=(6, 6))
     group_names = ['True Neg','False Pos','False Neg','True Pos']
     group_counts = ['{0:0.0f}'.format(value) for value in
@@ -366,7 +381,8 @@ def train_model(data_, y_, folds_):
                 align='left'))
     ])
     fig.write_image(path[:-12]+'graphs\\classification_report.png')
-
+    
+    
     # df compilation for export
     df_oof_preds = pd.DataFrame({'SK_ID_CURR':ids, 'PREDICTION':oof_preds, 'TARGET':y})
     df_oof_preds = df_oof_preds[['SK_ID_CURR', 'PREDICTION', 'TARGET']]
@@ -374,7 +390,7 @@ def train_model(data_, y_, folds_):
     df_gof_preds = pd.DataFrame({'SK_ID_CURR':ids, 'PREDICTION':gof_preds, 'TARGET':y})
     df_gof_preds = df_gof_preds[['SK_ID_CURR', 'PREDICTION', 'TARGET']]
     
-    return clf, oof_preds, df_oof_preds, df_gof_preds, feature_importance_df, roc_auc_score(y, oof_preds), df_report, new_ids
+    return clf, oof_preds, df_oof_preds, df_gof_preds, feature_importance_df, roc_auc_score(y, oof_preds), df_report, #new_ids
 
 
 def display_importances(feature_importance_df_):
@@ -395,6 +411,7 @@ def display_importances(feature_importance_df_):
     plt.title('LightGBM Features (avg over folds)')
     plt.tight_layout()
     plt.savefig(path[:-12]+'graphs\\lgbm_importances-01.png')
+
     return best_features
 
 def display_roc_curve(y_, oof_preds_, folds_idx_):
@@ -442,6 +459,7 @@ def display_roc_curve(y_, oof_preds_, folds_idx_):
     plt.savefig(path[:-12]+'graphs\\roc_curve-01.png')
 
 
+
 def display_precision_recall(y_, oof_preds_, folds_idx_):
 
     # Plot ROC curves
@@ -479,6 +497,7 @@ def display_precision_recall(y_, oof_preds_, folds_idx_):
     plt.tight_layout()
 
     plt.savefig(path[:-12]+'graphs\\recall_precision_curve-01.png')
+    
 
 
 if __name__ == '__main__':
@@ -513,7 +532,7 @@ if __name__ == '__main__':
     # Create Folds
     folds = StratifiedKFold(n_splits=5, shuffle=True, random_state=1001)
     # Train model and get oof predictions
-    clf, oof_preds, df_oof_preds, df_gof_preds, importances, score, df_report, new_ids = train_model(data, y, folds)
+    clf, oof_preds, df_oof_preds, df_gof_preds, importances, score, df_report = train_model(data, y, folds) #, new_ids 
     # Save the model to disk
     pickle.dump(clf, open(path[:-12]+'src\\scoring_model' + '.sav', 'wb'))
     # Save train data predictions
@@ -553,8 +572,7 @@ if __name__ == '__main__':
 
 
     # Display a few graphs
-    folds_idx = [(trn_idx, val_idx)
-                 for trn_idx, val_idx in folds.split(data, y)]
+    folds_idx = [(trn_idx, val_idx) for trn_idx, val_idx in folds.split(data, y)]
     best_features = display_importances(feature_importance_df_=importances)
     pickle.dump(best_features, open(path[:-12]+'src\\features_importances.sav', 'wb'))
 
@@ -564,8 +582,12 @@ if __name__ == '__main__':
 
     # Save processed data
     PROCESSED_DATA_PATH = path[:-12]+'src\\data_processed' + '.csv'
-    sampled_data = df_oof_preds[df_oof_preds.SK_ID_CURR.isin(new_ids)]
+    sampled_data = df_oof_preds #[df_oof_preds.SK_ID_CURR.isin(new_ids)]
+    print('sampled_data_1', sampled_data.shape)
+    sampled_data = sampled_data.drop_duplicates()
+    print('sampled_data_2', sampled_data.shape)
     sampled_data = sampled_data.merge(data, how='left', on='SK_ID_CURR')
+    print('sampled_data_3', sampled_data.shape)
     sampled_data = sampled_data.merge(df_data_db, how='left', on='SK_ID_CURR')
     print('sampled_data', sampled_data.shape)
     test = test.merge(df_test_db, how='left', on='SK_ID_CURR')

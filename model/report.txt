@@ -1,0 +1,786 @@
+PS C:\Users\IS\Documents\Data Scientist\P7\P7_semionov_irina\P7_02_dossier\api\model> python .\lightgbm_model.py
+Buro bal shape :  (27299925, 3)
+transform to dummies
+Counting buros
+averaging buro bal
+Read Bureau
+Go to dummies
+Merge with buro avg
+Counting buro per SK_ID_CURR
+Averaging bureau
+            SK_ID_BUREAU  DAYS_CREDIT  CREDIT_DAY_OVERDUE  DAYS_CREDIT_ENDDATE  ...  avg_buro_buro_bal_status_5  avg_buro_buro_bal_status_C  avg_buro_buro_bal_status_X  avg_buro_buro_count
+SK_ID_CURR                                                                      ...
+100001               7.0  -735.000000                 0.0            82.428571  ...                         0.0                    0.441240                    0.214590            24.571429
+100002               8.0  -874.000000                 0.0          -349.000000  ...                         0.0                    0.175426                    0.161932            13.750000
+100003               4.0 -1400.750000                 0.0          -544.500000  ...                         NaN                         NaN                         NaN                  NaN
+100004               2.0  -867.000000                 0.0          -488.500000  ...                         NaN                         NaN                         NaN                  NaN
+100005               3.0  -190.666667                 0.0           439.333333  ...                         0.0                    0.128205                    0.136752             7.000000
+
+[5 rows x 46 columns]
+Read prev
+Go to dummies
+Counting number of Prevs
+Averaging prev
+            SK_ID_PREV  AMT_ANNUITY  AMT_APPLICATION  ...  PRODUCT_COMBINATION_POS mobile without interest  PRODUCT_COMBINATION_POS other with interest  PRODUCT_COMBINATION_POS others without interest
+SK_ID_CURR                                            ...
+100001             1.0     3951.000         24835.50  ...                                              0.0                                          0.0                                              0.0   
+100002             1.0     9251.775        179055.00  ...                                              0.0                                          1.0                                              0.0   
+100003             3.0    56553.990        435436.50  ...                                              0.0                                          0.0                                              0.0   
+100004             1.0     5357.250         24282.00  ...                                              1.0                                          0.0                                              0.0   
+100005             2.0     4813.200         22308.75  ...                                              0.0                                          0.0                                              0.0   
+
+[5 rows x 163 columns]
+Reading POS_CASH
+Go to dummies
+Compute nb of prevs per curr
+Go to averages
+Reading CC balance
+Go to dummies
+Compute average
+Reading Installments
+Read data
+Shape data:  (307511, 122)
+Shape data for dashboard:  (307511, 4)
+Shape data:  (307511, 121)
+Shape data:  (307511, 380)
+        SK_ID_CURR  NAME_CONTRACT_TYPE  CODE_GENDER  FLAG_OWN_CAR  FLAG_OWN_REALTY  ...  inst_NUM_INSTALMENT_NUMBER  inst_DAYS_INSTALMENT  inst_DAYS_ENTRY_PAYMENT  inst_AMT_INSTALMENT  inst_AMT_PAYMENT
+0           100002                   0            0             0                0  ...                   10.000000           -295.000000              -315.421053         11559.247105      11559.247105  
+1           100003                   0            1             0                1  ...                    5.080000          -1378.160000             -1385.320000         64754.586000      64754.586000  
+2           100004                   1            0             1                0  ...                    2.000000           -754.000000              -761.666667          7096.155000       7096.155000  
+3           100006                   0            1             0                0  ...                    4.437500           -252.250000              -271.625000         62947.088438      62947.088438  
+4           100007                   0            0             0                0  ...                    7.045455          -1028.606061             -1032.242424         12666.444545      12214.060227  
+...            ...                 ...          ...           ...              ...  ...                         ...                   ...                      ...                  ...               ...  
+307506      456251                   0            0             0                1  ...                    4.000000           -120.000000              -156.285714          7492.924286       7492.924286  
+307507      456252                   0            1             0                0  ...                    3.500000          -2391.000000             -2393.833333         10069.867500      10069.867500  
+307508      456253                   0            1             0                0  ...                    4.785714          -2372.928571             -2387.428571          4399.707857       4115.915357  
+307509      456254                   0            1             0                0  ...                    5.263158           -142.263158              -161.263158         10239.832895      10239.832895  
+307510      456255                   0            1             0                1  ...                    8.851351           -463.945946              -472.013514         41464.713649      47646.215878  
+
+[246008 rows x 380 columns]
+0         1
+1         0
+2         0
+3         0
+4         0
+         ..
+307506    0
+307507    0
+307508    0
+307509    1
+307510    0
+Name: TARGET, Length: 246008, dtype: int64
+Counter({0: 226148, 1: 19860})
+Counter({0: 226148, 1: 45229})
+Counter({0: 64612, 1: 45229})
+[LightGBM] [Warning] num_threads is set with n_jobs=-1, nthread=4 will be ignored. Current value: num_threads=-1
+Training until validation scores don't improve for 100 rounds
+[100]   training's binary_logloss: 0.556869     valid_1's binary_logloss: 0.47341
+[200]   training's binary_logloss: 0.525523     valid_1's binary_logloss: 0.456862
+[300]   training's binary_logloss: 0.5051       valid_1's binary_logloss: 0.448604
+[400]   training's binary_logloss: 0.489143     valid_1's binary_logloss: 0.443125
+[500]   training's binary_logloss: 0.475904     valid_1's binary_logloss: 0.439082
+[600]   training's binary_logloss: 0.46366      valid_1's binary_logloss: 0.435504
+[700]   training's binary_logloss: 0.452176     valid_1's binary_logloss: 0.432055
+[800]   training's binary_logloss: 0.441576     valid_1's binary_logloss: 0.429076
+[900]   training's binary_logloss: 0.43116      valid_1's binary_logloss: 0.426004
+[1000]  training's binary_logloss: 0.421552     valid_1's binary_logloss: 0.423291
+[1100]  training's binary_logloss: 0.41203      valid_1's binary_logloss: 0.420628
+[1200]  training's binary_logloss: 0.402574     valid_1's binary_logloss: 0.417908
+[1300]  training's binary_logloss: 0.393834     valid_1's binary_logloss: 0.415479
+[1400]  training's binary_logloss: 0.38528      valid_1's binary_logloss: 0.413113
+[1500]  training's binary_logloss: 0.377292     valid_1's binary_logloss: 0.410912
+[1600]  training's binary_logloss: 0.369935     valid_1's binary_logloss: 0.408827
+[1700]  training's binary_logloss: 0.362758     valid_1's binary_logloss: 0.406842
+[1800]  training's binary_logloss: 0.355263     valid_1's binary_logloss: 0.404579
+[1900]  training's binary_logloss: 0.347981     valid_1's binary_logloss: 0.402429
+[2000]  training's binary_logloss: 0.341012     valid_1's binary_logloss: 0.400485
+[2100]  training's binary_logloss: 0.334176     valid_1's binary_logloss: 0.398659
+[2200]  training's binary_logloss: 0.32776      valid_1's binary_logloss: 0.39686
+[2300]  training's binary_logloss: 0.321645     valid_1's binary_logloss: 0.395031
+[2400]  training's binary_logloss: 0.315858     valid_1's binary_logloss: 0.393419
+[2500]  training's binary_logloss: 0.309856     valid_1's binary_logloss: 0.391711
+[2600]  training's binary_logloss: 0.303983     valid_1's binary_logloss: 0.390035
+[2700]  training's binary_logloss: 0.298745     valid_1's binary_logloss: 0.388524
+[2800]  training's binary_logloss: 0.293341     valid_1's binary_logloss: 0.387019
+[2900]  training's binary_logloss: 0.28809      valid_1's binary_logloss: 0.385626
+[3000]  training's binary_logloss: 0.282714     valid_1's binary_logloss: 0.384065
+[3100]  training's binary_logloss: 0.277564     valid_1's binary_logloss: 0.382551
+[3200]  training's binary_logloss: 0.272715     valid_1's binary_logloss: 0.381207
+[3300]  training's binary_logloss: 0.267764     valid_1's binary_logloss: 0.379812
+[3400]  training's binary_logloss: 0.263172     valid_1's binary_logloss: 0.378584
+[3500]  training's binary_logloss: 0.258738     valid_1's binary_logloss: 0.377447
+[3600]  training's binary_logloss: 0.254652     valid_1's binary_logloss: 0.376416
+[3700]  training's binary_logloss: 0.250221     valid_1's binary_logloss: 0.375155
+[3800]  training's binary_logloss: 0.246075     valid_1's binary_logloss: 0.37409
+[3900]  training's binary_logloss: 0.241861     valid_1's binary_logloss: 0.373019
+[4000]  training's binary_logloss: 0.237863     valid_1's binary_logloss: 0.37198
+[4100]  training's binary_logloss: 0.233878     valid_1's binary_logloss: 0.371031
+[4200]  training's binary_logloss: 0.230111     valid_1's binary_logloss: 0.370093
+[4300]  training's binary_logloss: 0.226083     valid_1's binary_logloss: 0.369024
+[4400]  training's binary_logloss: 0.22226      valid_1's binary_logloss: 0.36803
+[4500]  training's binary_logloss: 0.218493     valid_1's binary_logloss: 0.367069
+[4600]  training's binary_logloss: 0.214868     valid_1's binary_logloss: 0.366191
+[4700]  training's binary_logloss: 0.211291     valid_1's binary_logloss: 0.365224
+[4800]  training's binary_logloss: 0.20811      valid_1's binary_logloss: 0.364418
+[4900]  training's binary_logloss: 0.204928     valid_1's binary_logloss: 0.363565
+[5000]  training's binary_logloss: 0.201556     valid_1's binary_logloss: 0.362691
+[5100]  training's binary_logloss: 0.19848      valid_1's binary_logloss: 0.361928
+[5200]  training's binary_logloss: 0.195464     valid_1's binary_logloss: 0.361081
+[5300]  training's binary_logloss: 0.192346     valid_1's binary_logloss: 0.360273
+[5400]  training's binary_logloss: 0.189221     valid_1's binary_logloss: 0.359494
+[5500]  training's binary_logloss: 0.18642      valid_1's binary_logloss: 0.358753
+[5600]  training's binary_logloss: 0.183515     valid_1's binary_logloss: 0.357985
+[5700]  training's binary_logloss: 0.180606     valid_1's binary_logloss: 0.357243
+[5800]  training's binary_logloss: 0.177696     valid_1's binary_logloss: 0.356522
+[5900]  training's binary_logloss: 0.174968     valid_1's binary_logloss: 0.355865
+[6000]  training's binary_logloss: 0.172327     valid_1's binary_logloss: 0.355311
+[6100]  training's binary_logloss: 0.169673     valid_1's binary_logloss: 0.354744
+[6200]  training's binary_logloss: 0.167166     valid_1's binary_logloss: 0.354152
+[6300]  training's binary_logloss: 0.164506     valid_1's binary_logloss: 0.353491
+[6400]  training's binary_logloss: 0.162119     valid_1's binary_logloss: 0.352916
+[6500]  training's binary_logloss: 0.159587     valid_1's binary_logloss: 0.352365
+[6600]  training's binary_logloss: 0.157265     valid_1's binary_logloss: 0.351877
+[6700]  training's binary_logloss: 0.154897     valid_1's binary_logloss: 0.351405
+[6800]  training's binary_logloss: 0.152682     valid_1's binary_logloss: 0.350918
+[6900]  training's binary_logloss: 0.150455     valid_1's binary_logloss: 0.350424
+[7000]  training's binary_logloss: 0.148296     valid_1's binary_logloss: 0.350031
+[7100]  training's binary_logloss: 0.146236     valid_1's binary_logloss: 0.349633
+[7200]  training's binary_logloss: 0.143979     valid_1's binary_logloss: 0.349125
+[7300]  training's binary_logloss: 0.141844     valid_1's binary_logloss: 0.348718
+[7400]  training's binary_logloss: 0.139741     valid_1's binary_logloss: 0.348276
+[7500]  training's binary_logloss: 0.137705     valid_1's binary_logloss: 0.347905
+[7600]  training's binary_logloss: 0.135759     valid_1's binary_logloss: 0.347488
+[7700]  training's binary_logloss: 0.133796     valid_1's binary_logloss: 0.347127
+[7800]  training's binary_logloss: 0.131691     valid_1's binary_logloss: 0.346651
+[7900]  training's binary_logloss: 0.129813     valid_1's binary_logloss: 0.346269
+[8000]  training's binary_logloss: 0.128103     valid_1's binary_logloss: 0.346016
+[8100]  training's binary_logloss: 0.126342     valid_1's binary_logloss: 0.345754
+[8200]  training's binary_logloss: 0.124414     valid_1's binary_logloss: 0.345376
+[8300]  training's binary_logloss: 0.122781     valid_1's binary_logloss: 0.34509
+[8400]  training's binary_logloss: 0.120993     valid_1's binary_logloss: 0.344714
+[8500]  training's binary_logloss: 0.119473     valid_1's binary_logloss: 0.344465
+[8600]  training's binary_logloss: 0.118025     valid_1's binary_logloss: 0.3443
+[8700]  training's binary_logloss: 0.116356     valid_1's binary_logloss: 0.344096
+[8800]  training's binary_logloss: 0.114839     valid_1's binary_logloss: 0.343867
+[8900]  training's binary_logloss: 0.113239     valid_1's binary_logloss: 0.343591
+[9000]  training's binary_logloss: 0.111633     valid_1's binary_logloss: 0.343272
+[9100]  training's binary_logloss: 0.110103     valid_1's binary_logloss: 0.343017
+[9200]  training's binary_logloss: 0.108592     valid_1's binary_logloss: 0.342843
+[9300]  training's binary_logloss: 0.107106     valid_1's binary_logloss: 0.342703
+[9400]  training's binary_logloss: 0.105656     valid_1's binary_logloss: 0.34257
+[9500]  training's binary_logloss: 0.104338     valid_1's binary_logloss: 0.342405
+[9600]  training's binary_logloss: 0.103078     valid_1's binary_logloss: 0.342304
+[9700]  training's binary_logloss: 0.101732     valid_1's binary_logloss: 0.342218
+[9800]  training's binary_logloss: 0.100477     valid_1's binary_logloss: 0.341963
+[9900]  training's binary_logloss: 0.0992854    valid_1's binary_logloss: 0.341805
+[10000] training's binary_logloss: 0.098031     valid_1's binary_logloss: 0.341693
+Did not meet early stopping. Best iteration is:
+[10000] training's binary_logloss: 0.098031     valid_1's binary_logloss: 0.341693
+Fold  1 AUC : 0.763013
+(307511,)
+Accuracy: 0.8571451799099231
+F1 score: 0.31219664944418346
+Recall: 0.4016112789526687
+Precision: 0.2553463951850429
+>Train: 0=189399, 1=16633, Test: 0=93287, 1=8192
+(101479,)
+Accuracy: 0.915805240493107
+F1 score: 0.6259194395796848
+Recall: 0.87255859375
+Precision: 0.4879847078099399
+        SK_ID_CURR  NAME_CONTRACT_TYPE  CODE_GENDER  FLAG_OWN_CAR  FLAG_OWN_REALTY  ...  inst_NUM_INSTALMENT_NUMBER  inst_DAYS_INSTALMENT  inst_DAYS_ENTRY_PAYMENT  inst_AMT_INSTALMENT  inst_AMT_PAYMENT
+0           100002                   0            0             0                0  ...                   10.000000           -295.000000              -315.421053         11559.247105      11559.247105  
+1           100003                   0            1             0                1  ...                    5.080000          -1378.160000             -1385.320000         64754.586000      64754.586000  
+2           100004                   1            0             1                0  ...                    2.000000           -754.000000              -761.666667          7096.155000       7096.155000  
+3           100006                   0            1             0                0  ...                    4.437500           -252.250000              -271.625000         62947.088438      62947.088438  
+4           100007                   0            0             0                0  ...                    7.045455          -1028.606061             -1032.242424         12666.444545      12214.060227  
+...            ...                 ...          ...           ...              ...  ...                         ...                   ...                      ...                  ...               ...  
+307503      456247                   0            1             0                0  ...                   48.835821          -1602.007463             -1606.014925          5685.241231       5685.241231  
+307505      456249                   0            1             0                0  ...                    6.500000          -1330.000000             -1332.500000         22771.410000      22771.410000  
+307506      456251                   0            0             0                1  ...                    4.000000           -120.000000              -156.285714          7492.924286       7492.924286  
+307507      456252                   0            1             0                0  ...                    3.500000          -2391.000000             -2393.833333         10069.867500      10069.867500  
+307509      456254                   0            1             0                0  ...                    5.263158           -142.263158              -161.263158         10239.832895      10239.832895  
+
+[246009 rows x 380 columns]
+0         1
+1         0
+2         0
+3         0
+4         0
+         ..
+307503    0
+307505    0
+307506    0
+307507    0
+307509    1
+Name: TARGET, Length: 246009, dtype: int64
+Counter({0: 226149, 1: 19860})
+Counter({0: 226149, 1: 45229})
+Counter({0: 64612, 1: 45229})
+[LightGBM] [Warning] num_threads is set with n_jobs=-1, nthread=4 will be ignored. Current value: num_threads=-1
+Training until validation scores don't improve for 100 rounds
+[100]   training's binary_logloss: 0.558475     valid_1's binary_logloss: 0.47444
+[200]   training's binary_logloss: 0.527504     valid_1's binary_logloss: 0.458049
+[300]   training's binary_logloss: 0.507234     valid_1's binary_logloss: 0.449656
+[400]   training's binary_logloss: 0.491341     valid_1's binary_logloss: 0.443871
+[500]   training's binary_logloss: 0.47788      valid_1's binary_logloss: 0.439715
+[600]   training's binary_logloss: 0.465682     valid_1's binary_logloss: 0.435987
+[700]   training's binary_logloss: 0.454386     valid_1's binary_logloss: 0.432667
+[800]   training's binary_logloss: 0.443436     valid_1's binary_logloss: 0.42951
+[900]   training's binary_logloss: 0.433163     valid_1's binary_logloss: 0.426449
+[1000]  training's binary_logloss: 0.423485     valid_1's binary_logloss: 0.423551
+[1100]  training's binary_logloss: 0.41386      valid_1's binary_logloss: 0.420906
+[1200]  training's binary_logloss: 0.404376     valid_1's binary_logloss: 0.41808
+[1300]  training's binary_logloss: 0.395689     valid_1's binary_logloss: 0.415637
+[1400]  training's binary_logloss: 0.387247     valid_1's binary_logloss: 0.413236
+[1500]  training's binary_logloss: 0.379276     valid_1's binary_logloss: 0.410907
+[1600]  training's binary_logloss: 0.371681     valid_1's binary_logloss: 0.408657
+[1700]  training's binary_logloss: 0.364124     valid_1's binary_logloss: 0.406456
+[1800]  training's binary_logloss: 0.35682      valid_1's binary_logloss: 0.404331
+[1900]  training's binary_logloss: 0.349613     valid_1's binary_logloss: 0.402266
+[2000]  training's binary_logloss: 0.342368     valid_1's binary_logloss: 0.400156
+[2100]  training's binary_logloss: 0.335407     valid_1's binary_logloss: 0.398138
+[2200]  training's binary_logloss: 0.329168     valid_1's binary_logloss: 0.396399
+[2300]  training's binary_logloss: 0.322764     valid_1's binary_logloss: 0.394621
+[2400]  training's binary_logloss: 0.316697     valid_1's binary_logloss: 0.392773
+[2500]  training's binary_logloss: 0.310495     valid_1's binary_logloss: 0.390968
+[2600]  training's binary_logloss: 0.305023     valid_1's binary_logloss: 0.389349
+[2700]  training's binary_logloss: 0.299932     valid_1's binary_logloss: 0.387872
+[2800]  training's binary_logloss: 0.294369     valid_1's binary_logloss: 0.386274
+[2900]  training's binary_logloss: 0.289346     valid_1's binary_logloss: 0.38491
+[3000]  training's binary_logloss: 0.284342     valid_1's binary_logloss: 0.38353
+[3100]  training's binary_logloss: 0.27923      valid_1's binary_logloss: 0.382182
+[3200]  training's binary_logloss: 0.2743       valid_1's binary_logloss: 0.38072
+[3300]  training's binary_logloss: 0.269455     valid_1's binary_logloss: 0.379369
+[3400]  training's binary_logloss: 0.265105     valid_1's binary_logloss: 0.378095
+[3500]  training's binary_logloss: 0.260392     valid_1's binary_logloss: 0.376836
+[3600]  training's binary_logloss: 0.255893     valid_1's binary_logloss: 0.375561
+[3700]  training's binary_logloss: 0.251573     valid_1's binary_logloss: 0.374345
+[3800]  training's binary_logloss: 0.247498     valid_1's binary_logloss: 0.373238
+[3900]  training's binary_logloss: 0.243405     valid_1's binary_logloss: 0.372075
+[4000]  training's binary_logloss: 0.239188     valid_1's binary_logloss: 0.370918
+[4100]  training's binary_logloss: 0.235077     valid_1's binary_logloss: 0.369812
+[4200]  training's binary_logloss: 0.231004     valid_1's binary_logloss: 0.368654
+[4300]  training's binary_logloss: 0.227159     valid_1's binary_logloss: 0.367669
+[4400]  training's binary_logloss: 0.223536     valid_1's binary_logloss: 0.366656
+[4500]  training's binary_logloss: 0.219784     valid_1's binary_logloss: 0.365564
+[4600]  training's binary_logloss: 0.21611      valid_1's binary_logloss: 0.36468
+[4700]  training's binary_logloss: 0.212562     valid_1's binary_logloss: 0.363772
+[4800]  training's binary_logloss: 0.209093     valid_1's binary_logloss: 0.3629
+[4900]  training's binary_logloss: 0.205765     valid_1's binary_logloss: 0.361962
+[5000]  training's binary_logloss: 0.202562     valid_1's binary_logloss: 0.361182
+[5100]  training's binary_logloss: 0.199361     valid_1's binary_logloss: 0.360292
+[5200]  training's binary_logloss: 0.196176     valid_1's binary_logloss: 0.359454
+[5300]  training's binary_logloss: 0.19308      valid_1's binary_logloss: 0.35857
+[5400]  training's binary_logloss: 0.189918     valid_1's binary_logloss: 0.357826
+[5500]  training's binary_logloss: 0.186927     valid_1's binary_logloss: 0.357054
+[5600]  training's binary_logloss: 0.184048     valid_1's binary_logloss: 0.35644
+[5700]  training's binary_logloss: 0.181393     valid_1's binary_logloss: 0.355809
+[5800]  training's binary_logloss: 0.178682     valid_1's binary_logloss: 0.355213
+[5900]  training's binary_logloss: 0.175853     valid_1's binary_logloss: 0.354477
+[6000]  training's binary_logloss: 0.173166     valid_1's binary_logloss: 0.353856
+[6100]  training's binary_logloss: 0.170472     valid_1's binary_logloss: 0.353204
+[6200]  training's binary_logloss: 0.16781      valid_1's binary_logloss: 0.352613
+[6300]  training's binary_logloss: 0.165356     valid_1's binary_logloss: 0.352116
+[6400]  training's binary_logloss: 0.163024     valid_1's binary_logloss: 0.351555
+[6500]  training's binary_logloss: 0.160447     valid_1's binary_logloss: 0.351034
+[6600]  training's binary_logloss: 0.15812      valid_1's binary_logloss: 0.350474
+[6700]  training's binary_logloss: 0.155781     valid_1's binary_logloss: 0.349954
+[6800]  training's binary_logloss: 0.153766     valid_1's binary_logloss: 0.349578
+[6900]  training's binary_logloss: 0.151449     valid_1's binary_logloss: 0.349029
+[7000]  training's binary_logloss: 0.149204     valid_1's binary_logloss: 0.348508
+[7100]  training's binary_logloss: 0.147039     valid_1's binary_logloss: 0.347968
+[7200]  training's binary_logloss: 0.145048     valid_1's binary_logloss: 0.347569
+[7300]  training's binary_logloss: 0.14291      valid_1's binary_logloss: 0.347064
+[7400]  training's binary_logloss: 0.14071      valid_1's binary_logloss: 0.346627
+[7500]  training's binary_logloss: 0.138772     valid_1's binary_logloss: 0.346297
+[7600]  training's binary_logloss: 0.136766     valid_1's binary_logloss: 0.345958
+[7700]  training's binary_logloss: 0.134764     valid_1's binary_logloss: 0.345514
+[7800]  training's binary_logloss: 0.132739     valid_1's binary_logloss: 0.34516
+[7900]  training's binary_logloss: 0.130887     valid_1's binary_logloss: 0.344809
+[8000]  training's binary_logloss: 0.128961     valid_1's binary_logloss: 0.344477
+[8100]  training's binary_logloss: 0.127238     valid_1's binary_logloss: 0.344122
+[8200]  training's binary_logloss: 0.125465     valid_1's binary_logloss: 0.343771
+[8300]  training's binary_logloss: 0.123712     valid_1's binary_logloss: 0.343427
+[8400]  training's binary_logloss: 0.121974     valid_1's binary_logloss: 0.343125
+[8500]  training's binary_logloss: 0.120332     valid_1's binary_logloss: 0.342795
+[8600]  training's binary_logloss: 0.118855     valid_1's binary_logloss: 0.34259
+[8700]  training's binary_logloss: 0.117209     valid_1's binary_logloss: 0.342281
+[8800]  training's binary_logloss: 0.115802     valid_1's binary_logloss: 0.342028
+[8900]  training's binary_logloss: 0.114229     valid_1's binary_logloss: 0.341798
+[9000]  training's binary_logloss: 0.112721     valid_1's binary_logloss: 0.341547
+[9100]  training's binary_logloss: 0.111341     valid_1's binary_logloss: 0.341325
+[9200]  training's binary_logloss: 0.110029     valid_1's binary_logloss: 0.34116
+[9300]  training's binary_logloss: 0.108633     valid_1's binary_logloss: 0.340926
+[9400]  training's binary_logloss: 0.107124     valid_1's binary_logloss: 0.340591
+[9500]  training's binary_logloss: 0.105716     valid_1's binary_logloss: 0.340416
+[9600]  training's binary_logloss: 0.10432      valid_1's binary_logloss: 0.340153
+[9700]  training's binary_logloss: 0.102943     valid_1's binary_logloss: 0.340022
+[9800]  training's binary_logloss: 0.101547     valid_1's binary_logloss: 0.339798
+[9900]  training's binary_logloss: 0.100174     valid_1's binary_logloss: 0.339639
+[10000] training's binary_logloss: 0.0988772    valid_1's binary_logloss: 0.339534
+Did not meet early stopping. Best iteration is:
+[10000] training's binary_logloss: 0.0988772    valid_1's binary_logloss: 0.339534
+Fold  2 AUC : 0.767444
+(307511,)
+Accuracy: 0.8576631654255146
+F1 score: 0.3211848635235731
+Recall: 0.41711983887210474
+Precision: 0.2611272222922708
+>Train: 0=189399, 1=16633, Test: 0=93287, 1=8192
+(101479,)
+Accuracy: 0.9152139851594912
+F1 score: 0.6238524088484741
+Recall: 0.8709716796875
+Precision: 0.48596921400354176
+        SK_ID_CURR  NAME_CONTRACT_TYPE  CODE_GENDER  FLAG_OWN_CAR  FLAG_OWN_REALTY  ...  inst_NUM_INSTALMENT_NUMBER  inst_DAYS_INSTALMENT  inst_DAYS_ENTRY_PAYMENT  inst_AMT_INSTALMENT  inst_AMT_PAYMENT
+0           100002                   0            0             0                0  ...                   10.000000           -295.000000              -315.421053         11559.247105      11559.247105  
+1           100003                   0            1             0                1  ...                    5.080000          -1378.160000             -1385.320000         64754.586000      64754.586000  
+2           100004                   1            0             1                0  ...                    2.000000           -754.000000              -761.666667          7096.155000       7096.155000  
+3           100006                   0            1             0                0  ...                    4.437500           -252.250000              -271.625000         62947.088438      62947.088438  
+4           100007                   0            0             0                0  ...                    7.045455          -1028.606061             -1032.242424         12666.444545      12214.060227  
+...            ...                 ...          ...           ...              ...  ...                         ...                   ...                      ...                  ...               ...  
+307504      456248                   0            1             0                0  ...                    8.978261           -991.826087              -996.891304         44619.088696      43887.146087  
+307507      456252                   0            1             0                0  ...                    3.500000          -2391.000000             -2393.833333         10069.867500      10069.867500  
+307508      456253                   0            1             0                0  ...                    4.785714          -2372.928571             -2387.428571          4399.707857       4115.915357  
+307509      456254                   0            1             0                0  ...                    5.263158           -142.263158              -161.263158         10239.832895      10239.832895  
+307510      456255                   0            1             0                1  ...                    8.851351           -463.945946              -472.013514         41464.713649      47646.215878  
+
+[246009 rows x 380 columns]
+0         1
+1         0
+2         0
+3         0
+4         0
+         ..
+307504    0
+307507    0
+307508    0
+307509    1
+307510    0
+Name: TARGET, Length: 246009, dtype: int64
+Counter({0: 226149, 1: 19860})
+Counter({0: 226149, 1: 45229})
+Counter({0: 64612, 1: 45229})
+[LightGBM] [Warning] num_threads is set with n_jobs=-1, nthread=4 will be ignored. Current value: num_threads=-1
+Training until validation scores don't improve for 100 rounds
+[100]   training's binary_logloss: 0.557141     valid_1's binary_logloss: 0.476816
+[200]   training's binary_logloss: 0.525504     valid_1's binary_logloss: 0.461104
+[300]   training's binary_logloss: 0.504829     valid_1's binary_logloss: 0.453018
+[400]   training's binary_logloss: 0.488664     valid_1's binary_logloss: 0.447597
+[500]   training's binary_logloss: 0.475089     valid_1's binary_logloss: 0.443277
+[600]   training's binary_logloss: 0.462771     valid_1's binary_logloss: 0.439557
+[700]   training's binary_logloss: 0.450952     valid_1's binary_logloss: 0.435928
+[800]   training's binary_logloss: 0.440033     valid_1's binary_logloss: 0.432766
+[900]   training's binary_logloss: 0.429744     valid_1's binary_logloss: 0.429731
+[1000]  training's binary_logloss: 0.420052     valid_1's binary_logloss: 0.426878
+[1100]  training's binary_logloss: 0.411173     valid_1's binary_logloss: 0.424259
+[1200]  training's binary_logloss: 0.402419     valid_1's binary_logloss: 0.421668
+[1300]  training's binary_logloss: 0.393809     valid_1's binary_logloss: 0.419202
+[1400]  training's binary_logloss: 0.385553     valid_1's binary_logloss: 0.416915
+[1500]  training's binary_logloss: 0.378252     valid_1's binary_logloss: 0.414822
+[1600]  training's binary_logloss: 0.371053     valid_1's binary_logloss: 0.412823
+[1700]  training's binary_logloss: 0.363513     valid_1's binary_logloss: 0.410709
+[1800]  training's binary_logloss: 0.356369     valid_1's binary_logloss: 0.408702
+[1900]  training's binary_logloss: 0.349424     valid_1's binary_logloss: 0.406717
+[2000]  training's binary_logloss: 0.342988     valid_1's binary_logloss: 0.404956
+[2100]  training's binary_logloss: 0.336594     valid_1's binary_logloss: 0.403079
+[2200]  training's binary_logloss: 0.329974     valid_1's binary_logloss: 0.401191
+[2300]  training's binary_logloss: 0.32387      valid_1's binary_logloss: 0.399433
+[2400]  training's binary_logloss: 0.31782      valid_1's binary_logloss: 0.397734
+[2500]  training's binary_logloss: 0.31228      valid_1's binary_logloss: 0.39619
+[2600]  training's binary_logloss: 0.306938     valid_1's binary_logloss: 0.394673
+[2700]  training's binary_logloss: 0.301419     valid_1's binary_logloss: 0.393099
+[2800]  training's binary_logloss: 0.295869     valid_1's binary_logloss: 0.391579
+[2900]  training's binary_logloss: 0.290784     valid_1's binary_logloss: 0.390228
+[3000]  training's binary_logloss: 0.28552      valid_1's binary_logloss: 0.388716
+[3100]  training's binary_logloss: 0.280538     valid_1's binary_logloss: 0.3874
+[3200]  training's binary_logloss: 0.275509     valid_1's binary_logloss: 0.386129
+[3300]  training's binary_logloss: 0.270649     valid_1's binary_logloss: 0.384839
+[3400]  training's binary_logloss: 0.266063     valid_1's binary_logloss: 0.383723
+[3500]  training's binary_logloss: 0.261623     valid_1's binary_logloss: 0.382561
+[3600]  training's binary_logloss: 0.257389     valid_1's binary_logloss: 0.381423
+[3700]  training's binary_logloss: 0.253219     valid_1's binary_logloss: 0.38038
+[3800]  training's binary_logloss: 0.249152     valid_1's binary_logloss: 0.379314
+[3900]  training's binary_logloss: 0.24498      valid_1's binary_logloss: 0.378258
+[4000]  training's binary_logloss: 0.240814     valid_1's binary_logloss: 0.37718
+[4100]  training's binary_logloss: 0.236633     valid_1's binary_logloss: 0.375948
+[4200]  training's binary_logloss: 0.233053     valid_1's binary_logloss: 0.375106
+[4300]  training's binary_logloss: 0.229337     valid_1's binary_logloss: 0.374128
+[4400]  training's binary_logloss: 0.225606     valid_1's binary_logloss: 0.373251
+[4500]  training's binary_logloss: 0.222019     valid_1's binary_logloss: 0.372339
+[4600]  training's binary_logloss: 0.218625     valid_1's binary_logloss: 0.371462
+[4700]  training's binary_logloss: 0.2151       valid_1's binary_logloss: 0.370558
+[4800]  training's binary_logloss: 0.21196      valid_1's binary_logloss: 0.36977
+[4900]  training's binary_logloss: 0.208488     valid_1's binary_logloss: 0.368878
+[5000]  training's binary_logloss: 0.205081     valid_1's binary_logloss: 0.368076
+[5100]  training's binary_logloss: 0.201895     valid_1's binary_logloss: 0.367363
+[5200]  training's binary_logloss: 0.1987       valid_1's binary_logloss: 0.366586
+[5300]  training's binary_logloss: 0.195505     valid_1's binary_logloss: 0.365784
+[5400]  training's binary_logloss: 0.192379     valid_1's binary_logloss: 0.36495
+[5500]  training's binary_logloss: 0.189245     valid_1's binary_logloss: 0.364103
+[5600]  training's binary_logloss: 0.186244     valid_1's binary_logloss: 0.36338
+[5700]  training's binary_logloss: 0.183338     valid_1's binary_logloss: 0.362773
+[5800]  training's binary_logloss: 0.1805       valid_1's binary_logloss: 0.362208
+[5900]  training's binary_logloss: 0.177837     valid_1's binary_logloss: 0.361752
+[6000]  training's binary_logloss: 0.174932     valid_1's binary_logloss: 0.361064
+[6100]  training's binary_logloss: 0.172325     valid_1's binary_logloss: 0.360436
+[6200]  training's binary_logloss: 0.169866     valid_1's binary_logloss: 0.35992
+[6300]  training's binary_logloss: 0.167448     valid_1's binary_logloss: 0.359422
+[6400]  training's binary_logloss: 0.164914     valid_1's binary_logloss: 0.358814
+[6500]  training's binary_logloss: 0.162416     valid_1's binary_logloss: 0.358323
+[6600]  training's binary_logloss: 0.159967     valid_1's binary_logloss: 0.357835
+[6700]  training's binary_logloss: 0.157627     valid_1's binary_logloss: 0.357302
+[6800]  training's binary_logloss: 0.155459     valid_1's binary_logloss: 0.356857
+[6900]  training's binary_logloss: 0.153255     valid_1's binary_logloss: 0.356422
+[7000]  training's binary_logloss: 0.150959     valid_1's binary_logloss: 0.355912
+[7100]  training's binary_logloss: 0.148568     valid_1's binary_logloss: 0.35533
+[7200]  training's binary_logloss: 0.146455     valid_1's binary_logloss: 0.354943
+[7300]  training's binary_logloss: 0.144467     valid_1's binary_logloss: 0.354465
+[7400]  training's binary_logloss: 0.142347     valid_1's binary_logloss: 0.354086
+[7500]  training's binary_logloss: 0.140258     valid_1's binary_logloss: 0.353662
+[7600]  training's binary_logloss: 0.138335     valid_1's binary_logloss: 0.353335
+[7700]  training's binary_logloss: 0.136257     valid_1's binary_logloss: 0.352901
+[7800]  training's binary_logloss: 0.134205     valid_1's binary_logloss: 0.352472
+[7900]  training's binary_logloss: 0.1323       valid_1's binary_logloss: 0.352116
+[8000]  training's binary_logloss: 0.130444     valid_1's binary_logloss: 0.351787
+[8100]  training's binary_logloss: 0.12867      valid_1's binary_logloss: 0.351505
+[8200]  training's binary_logloss: 0.126889     valid_1's binary_logloss: 0.351186
+[8300]  training's binary_logloss: 0.125159     valid_1's binary_logloss: 0.350906
+[8400]  training's binary_logloss: 0.123447     valid_1's binary_logloss: 0.350604
+[8500]  training's binary_logloss: 0.121743     valid_1's binary_logloss: 0.350321
+[8600]  training's binary_logloss: 0.120078     valid_1's binary_logloss: 0.350066
+[8700]  training's binary_logloss: 0.11846      valid_1's binary_logloss: 0.349801
+[8800]  training's binary_logloss: 0.116829     valid_1's binary_logloss: 0.349613
+[8900]  training's binary_logloss: 0.115188     valid_1's binary_logloss: 0.349304
+[9000]  training's binary_logloss: 0.113508     valid_1's binary_logloss: 0.349062
+[9100]  training's binary_logloss: 0.11194      valid_1's binary_logloss: 0.348876
+[9200]  training's binary_logloss: 0.110597     valid_1's binary_logloss: 0.348674
+[9300]  training's binary_logloss: 0.109137     valid_1's binary_logloss: 0.348532
+[9400]  training's binary_logloss: 0.1075       valid_1's binary_logloss: 0.348251
+[9500]  training's binary_logloss: 0.106        valid_1's binary_logloss: 0.348074
+[9600]  training's binary_logloss: 0.104565     valid_1's binary_logloss: 0.34784
+[9700]  training's binary_logloss: 0.103195     valid_1's binary_logloss: 0.347754
+[9800]  training's binary_logloss: 0.10189      valid_1's binary_logloss: 0.347618
+[9900]  training's binary_logloss: 0.100563     valid_1's binary_logloss: 0.347472
+[10000] training's binary_logloss: 0.0992719    valid_1's binary_logloss: 0.347302
+Did not meet early stopping. Best iteration is:
+[10000] training's binary_logloss: 0.0992719    valid_1's binary_logloss: 0.347302
+Fold  3 AUC : 0.765454
+(307511,)
+Accuracy: 0.8534356606289226
+F1 score: 0.31753482737734706
+Recall: 0.42235649546827797
+Precision: 0.2543976707509402
+>Train: 0=189399, 1=16633, Test: 0=93287, 1=8192
+(101479,)
+Accuracy: 0.9142975393923866
+F1 score: 0.623880984301345
+Recall: 0.8804931640625
+Precision: 0.4830888754939388
+        SK_ID_CURR  NAME_CONTRACT_TYPE  CODE_GENDER  FLAG_OWN_CAR  FLAG_OWN_REALTY  ...  inst_NUM_INSTALMENT_NUMBER  inst_DAYS_INSTALMENT  inst_DAYS_ENTRY_PAYMENT  inst_AMT_INSTALMENT  inst_AMT_PAYMENT
+3           100006                   0            1             0                0  ...                    4.437500           -252.250000              -271.625000         62947.088438      62947.088438  
+5           100008                   0            0             0                0  ...                    5.057143          -1263.914286             -1237.800000         27702.964286      27360.502714  
+6           100009                   0            1             1                0  ...                    4.549020           -855.823529              -864.411765          9568.531765       9568.531765  
+7           100010                   0            0             1                0  ...                    5.500000           -904.000000              -915.900000         27449.208000      27449.208000  
+8           100011                   0            1             0                0  ...                   28.446154          -1154.061538             -1150.923077         13575.715615      11328.893654  
+...            ...                 ...          ...           ...              ...  ...                         ...                   ...                      ...                  ...               ...  
+307504      456248                   0            1             0                0  ...                    8.978261           -991.826087              -996.891304         44619.088696      43887.146087  
+307505      456249                   0            1             0                0  ...                    6.500000          -1330.000000             -1332.500000         22771.410000      22771.410000  
+307506      456251                   0            0             0                1  ...                    4.000000           -120.000000              -156.285714          7492.924286       7492.924286  
+307508      456253                   0            1             0                0  ...                    4.785714          -2372.928571             -2387.428571          4399.707857       4115.915357  
+307510      456255                   0            1             0                1  ...                    8.851351           -463.945946              -472.013514         41464.713649      47646.215878  
+
+[246009 rows x 380 columns]
+3         0
+5         0
+6         0
+7         0
+8         0
+         ..
+307504    0
+307505    0
+307506    0
+307508    0
+307510    0
+Name: TARGET, Length: 246009, dtype: int64
+Counter({0: 226149, 1: 19860})
+Counter({0: 226149, 1: 45229})
+Counter({0: 64612, 1: 45229})
+[LightGBM] [Warning] num_threads is set with n_jobs=-1, nthread=4 will be ignored. Current value: num_threads=-1
+Training until validation scores don't improve for 100 rounds
+[100]   training's binary_logloss: 0.556969     valid_1's binary_logloss: 0.476246
+[200]   training's binary_logloss: 0.525597     valid_1's binary_logloss: 0.460432
+[300]   training's binary_logloss: 0.505254     valid_1's binary_logloss: 0.452229
+[400]   training's binary_logloss: 0.48907      valid_1's binary_logloss: 0.446729
+[500]   training's binary_logloss: 0.47574      valid_1's binary_logloss: 0.442562
+[600]   training's binary_logloss: 0.46372      valid_1's binary_logloss: 0.438796
+[700]   training's binary_logloss: 0.452317     valid_1's binary_logloss: 0.435428
+[800]   training's binary_logloss: 0.441514     valid_1's binary_logloss: 0.432264
+[900]   training's binary_logloss: 0.431415     valid_1's binary_logloss: 0.429357
+[1000]  training's binary_logloss: 0.421718     valid_1's binary_logloss: 0.426627
+[1100]  training's binary_logloss: 0.412269     valid_1's binary_logloss: 0.423911
+[1200]  training's binary_logloss: 0.403265     valid_1's binary_logloss: 0.421442
+[1300]  training's binary_logloss: 0.394924     valid_1's binary_logloss: 0.418969
+[1400]  training's binary_logloss: 0.386298     valid_1's binary_logloss: 0.416463
+[1500]  training's binary_logloss: 0.378271     valid_1's binary_logloss: 0.414068
+[1600]  training's binary_logloss: 0.37067      valid_1's binary_logloss: 0.411991
+[1700]  training's binary_logloss: 0.363781     valid_1's binary_logloss: 0.410124
+[1800]  training's binary_logloss: 0.357021     valid_1's binary_logloss: 0.4083
+[1900]  training's binary_logloss: 0.349639     valid_1's binary_logloss: 0.406156
+[2000]  training's binary_logloss: 0.342961     valid_1's binary_logloss: 0.404145
+[2100]  training's binary_logloss: 0.336493     valid_1's binary_logloss: 0.402229
+[2200]  training's binary_logloss: 0.330413     valid_1's binary_logloss: 0.400559
+[2300]  training's binary_logloss: 0.324228     valid_1's binary_logloss: 0.398839
+[2400]  training's binary_logloss: 0.318584     valid_1's binary_logloss: 0.397296
+[2500]  training's binary_logloss: 0.312641     valid_1's binary_logloss: 0.395606
+[2600]  training's binary_logloss: 0.306977     valid_1's binary_logloss: 0.394027
+[2700]  training's binary_logloss: 0.301308     valid_1's binary_logloss: 0.392396
+[2800]  training's binary_logloss: 0.295761     valid_1's binary_logloss: 0.390846
+[2900]  training's binary_logloss: 0.290239     valid_1's binary_logloss: 0.389239
+[3000]  training's binary_logloss: 0.285216     valid_1's binary_logloss: 0.3879
+[3100]  training's binary_logloss: 0.28 valid_1's binary_logloss: 0.386458
+[3200]  training's binary_logloss: 0.275423     valid_1's binary_logloss: 0.385228
+[3300]  training's binary_logloss: 0.270902     valid_1's binary_logloss: 0.38404
+[3400]  training's binary_logloss: 0.266238     valid_1's binary_logloss: 0.382796
+[3500]  training's binary_logloss: 0.26134      valid_1's binary_logloss: 0.381385
+[3600]  training's binary_logloss: 0.25698      valid_1's binary_logloss: 0.38017
+[3700]  training's binary_logloss: 0.252684     valid_1's binary_logloss: 0.378974
+[3800]  training's binary_logloss: 0.248447     valid_1's binary_logloss: 0.377853
+[3900]  training's binary_logloss: 0.244154     valid_1's binary_logloss: 0.376717
+[4000]  training's binary_logloss: 0.239859     valid_1's binary_logloss: 0.375628
+[4100]  training's binary_logloss: 0.235795     valid_1's binary_logloss: 0.374574
+[4200]  training's binary_logloss: 0.231569     valid_1's binary_logloss: 0.373403
+[4300]  training's binary_logloss: 0.227719     valid_1's binary_logloss: 0.372413
+[4400]  training's binary_logloss: 0.223901     valid_1's binary_logloss: 0.371463
+[4500]  training's binary_logloss: 0.220164     valid_1's binary_logloss: 0.370528
+[4600]  training's binary_logloss: 0.216303     valid_1's binary_logloss: 0.369481
+[4700]  training's binary_logloss: 0.213043     valid_1's binary_logloss: 0.368615
+[4800]  training's binary_logloss: 0.209994     valid_1's binary_logloss: 0.367902
+[4900]  training's binary_logloss: 0.206717     valid_1's binary_logloss: 0.367121
+[5000]  training's binary_logloss: 0.203353     valid_1's binary_logloss: 0.366332
+[5100]  training's binary_logloss: 0.199957     valid_1's binary_logloss: 0.365494
+[5200]  training's binary_logloss: 0.196717     valid_1's binary_logloss: 0.364702
+[5300]  training's binary_logloss: 0.193647     valid_1's binary_logloss: 0.363988
+[5400]  training's binary_logloss: 0.19061      valid_1's binary_logloss: 0.363194
+[5500]  training's binary_logloss: 0.187763     valid_1's binary_logloss: 0.3625
+[5600]  training's binary_logloss: 0.185068     valid_1's binary_logloss: 0.361874
+[5700]  training's binary_logloss: 0.182251     valid_1's binary_logloss: 0.361227
+[5800]  training's binary_logloss: 0.179528     valid_1's binary_logloss: 0.360501
+[5900]  training's binary_logloss: 0.176864     valid_1's binary_logloss: 0.359881
+[6000]  training's binary_logloss: 0.174257     valid_1's binary_logloss: 0.359288
+[6100]  training's binary_logloss: 0.171493     valid_1's binary_logloss: 0.358562
+[6200]  training's binary_logloss: 0.168965     valid_1's binary_logloss: 0.358004
+[6300]  training's binary_logloss: 0.166456     valid_1's binary_logloss: 0.357312
+[6400]  training's binary_logloss: 0.163985     valid_1's binary_logloss: 0.356769
+[6500]  training's binary_logloss: 0.161704     valid_1's binary_logloss: 0.356258
+[6600]  training's binary_logloss: 0.159301     valid_1's binary_logloss: 0.355741
+[6700]  training's binary_logloss: 0.156892     valid_1's binary_logloss: 0.35516
+[6800]  training's binary_logloss: 0.154625     valid_1's binary_logloss: 0.35465
+[6900]  training's binary_logloss: 0.152462     valid_1's binary_logloss: 0.354167
+[7000]  training's binary_logloss: 0.150187     valid_1's binary_logloss: 0.353685
+[7100]  training's binary_logloss: 0.147778     valid_1's binary_logloss: 0.353094
+[7200]  training's binary_logloss: 0.14544      valid_1's binary_logloss: 0.35258
+[7300]  training's binary_logloss: 0.143257     valid_1's binary_logloss: 0.352044
+[7400]  training's binary_logloss: 0.141157     valid_1's binary_logloss: 0.351669
+[7500]  training's binary_logloss: 0.139114     valid_1's binary_logloss: 0.351303
+[7600]  training's binary_logloss: 0.137085     valid_1's binary_logloss: 0.350886
+[7700]  training's binary_logloss: 0.135206     valid_1's binary_logloss: 0.350516
+[7800]  training's binary_logloss: 0.133201     valid_1's binary_logloss: 0.350068
+[7900]  training's binary_logloss: 0.131209     valid_1's binary_logloss: 0.349715
+[8000]  training's binary_logloss: 0.12931      valid_1's binary_logloss: 0.349426
+[8100]  training's binary_logloss: 0.12756      valid_1's binary_logloss: 0.349137
+[8200]  training's binary_logloss: 0.125765     valid_1's binary_logloss: 0.348749
+[8300]  training's binary_logloss: 0.124035     valid_1's binary_logloss: 0.348383
+[8400]  training's binary_logloss: 0.122324     valid_1's binary_logloss: 0.347937
+[8500]  training's binary_logloss: 0.120612     valid_1's binary_logloss: 0.347651
+[8600]  training's binary_logloss: 0.118984     valid_1's binary_logloss: 0.347353
+[8700]  training's binary_logloss: 0.117391     valid_1's binary_logloss: 0.347164
+[8800]  training's binary_logloss: 0.115763     valid_1's binary_logloss: 0.346901
+[8900]  training's binary_logloss: 0.114152     valid_1's binary_logloss: 0.346585
+[9000]  training's binary_logloss: 0.112644     valid_1's binary_logloss: 0.346337
+[9100]  training's binary_logloss: 0.111189     valid_1's binary_logloss: 0.346151
+[9200]  training's binary_logloss: 0.109689     valid_1's binary_logloss: 0.345948
+[9300]  training's binary_logloss: 0.108196     valid_1's binary_logloss: 0.345711
+[9400]  training's binary_logloss: 0.106855     valid_1's binary_logloss: 0.345492
+[9500]  training's binary_logloss: 0.105421     valid_1's binary_logloss: 0.345309
+[9600]  training's binary_logloss: 0.104081     valid_1's binary_logloss: 0.34512
+[9700]  training's binary_logloss: 0.102698     valid_1's binary_logloss: 0.344928
+[9800]  training's binary_logloss: 0.101339     valid_1's binary_logloss: 0.344739
+[9900]  training's binary_logloss: 0.10002      valid_1's binary_logloss: 0.344505
+[10000] training's binary_logloss: 0.0987112    valid_1's binary_logloss: 0.344333
+Did not meet early stopping. Best iteration is:
+[10000] training's binary_logloss: 0.0987112    valid_1's binary_logloss: 0.344333
+Fold  4 AUC : 0.766038
+(307511,)
+Accuracy: 0.8536307762349192
+F1 score: 0.3138719512195122
+Recall: 0.4147029204431017
+Precision: 0.25248313917841814
+>Train: 0=189399, 1=16633, Test: 0=93287, 1=8192
+(101479,)
+Accuracy: 0.9143073936479469
+F1 score: 0.6217485863418878
+Recall: 0.8724365234375
+Precision: 0.48297067171239355
+        SK_ID_CURR  NAME_CONTRACT_TYPE  CODE_GENDER  FLAG_OWN_CAR  FLAG_OWN_REALTY  ...  inst_NUM_INSTALMENT_NUMBER  inst_DAYS_INSTALMENT  inst_DAYS_ENTRY_PAYMENT  inst_AMT_INSTALMENT  inst_AMT_PAYMENT
+0           100002                   0            0             0                0  ...                   10.000000           -295.000000              -315.421053         11559.247105      11559.247105  
+1           100003                   0            1             0                1  ...                    5.080000          -1378.160000             -1385.320000         64754.586000      64754.586000  
+2           100004                   1            0             1                0  ...                    2.000000           -754.000000              -761.666667          7096.155000       7096.155000  
+4           100007                   0            0             0                0  ...                    7.045455          -1028.606061             -1032.242424         12666.444545      12214.060227  
+5           100008                   0            0             0                0  ...                    5.057143          -1263.914286             -1237.800000         27702.964286      27360.502714  
+...            ...                 ...          ...           ...              ...  ...                         ...                   ...                      ...                  ...               ...  
+307506      456251                   0            0             0                1  ...                    4.000000           -120.000000              -156.285714          7492.924286       7492.924286  
+307507      456252                   0            1             0                0  ...                    3.500000          -2391.000000             -2393.833333         10069.867500      10069.867500  
+307508      456253                   0            1             0                0  ...                    4.785714          -2372.928571             -2387.428571          4399.707857       4115.915357  
+307509      456254                   0            1             0                0  ...                    5.263158           -142.263158              -161.263158         10239.832895      10239.832895  
+307510      456255                   0            1             0                1  ...                    8.851351           -463.945946              -472.013514         41464.713649      47646.215878  
+
+[246009 rows x 380 columns]
+0         1
+1         0
+2         0
+4         0
+5         0
+         ..
+307506    0
+307507    0
+307508    0
+307509    1
+307510    0
+Name: TARGET, Length: 246009, dtype: int64
+Counter({0: 226149, 1: 19860})
+Counter({0: 226149, 1: 45229})
+Counter({0: 64612, 1: 45229})
+[LightGBM] [Warning] num_threads is set with n_jobs=-1, nthread=4 will be ignored. Current value: num_threads=-1
+Training until validation scores don't improve for 100 rounds
+[100]   training's binary_logloss: 0.557696     valid_1's binary_logloss: 0.475127
+[200]   training's binary_logloss: 0.526399     valid_1's binary_logloss: 0.458787
+[300]   training's binary_logloss: 0.50582      valid_1's binary_logloss: 0.450287
+[400]   training's binary_logloss: 0.489215     valid_1's binary_logloss: 0.444413
+[500]   training's binary_logloss: 0.475242     valid_1's binary_logloss: 0.440062
+[600]   training's binary_logloss: 0.462628     valid_1's binary_logloss: 0.436058
+[700]   training's binary_logloss: 0.450892     valid_1's binary_logloss: 0.432441
+[800]   training's binary_logloss: 0.439719     valid_1's binary_logloss: 0.42912
+[900]   training's binary_logloss: 0.429041     valid_1's binary_logloss: 0.426041
+[1000]  training's binary_logloss: 0.419317     valid_1's binary_logloss: 0.42313
+[1100]  training's binary_logloss: 0.409733     valid_1's binary_logloss: 0.420333
+[1200]  training's binary_logloss: 0.400408     valid_1's binary_logloss: 0.417767
+[1300]  training's binary_logloss: 0.391776     valid_1's binary_logloss: 0.415227
+[1400]  training's binary_logloss: 0.383202     valid_1's binary_logloss: 0.412726
+[1500]  training's binary_logloss: 0.375201     valid_1's binary_logloss: 0.410422
+[1600]  training's binary_logloss: 0.367505     valid_1's binary_logloss: 0.408118
+[1700]  training's binary_logloss: 0.360138     valid_1's binary_logloss: 0.406048
+[1800]  training's binary_logloss: 0.352844     valid_1's binary_logloss: 0.403852
+[1900]  training's binary_logloss: 0.345693     valid_1's binary_logloss: 0.401917
+[2000]  training's binary_logloss: 0.338796     valid_1's binary_logloss: 0.399877
+[2100]  training's binary_logloss: 0.332494     valid_1's binary_logloss: 0.398145
+[2200]  training's binary_logloss: 0.326207     valid_1's binary_logloss: 0.396241
+[2300]  training's binary_logloss: 0.320382     valid_1's binary_logloss: 0.394627
+[2400]  training's binary_logloss: 0.314454     valid_1's binary_logloss: 0.392997
+[2500]  training's binary_logloss: 0.308529     valid_1's binary_logloss: 0.391274
+[2600]  training's binary_logloss: 0.303025     valid_1's binary_logloss: 0.389688
+[2700]  training's binary_logloss: 0.297354     valid_1's binary_logloss: 0.388008
+[2800]  training's binary_logloss: 0.291598     valid_1's binary_logloss: 0.386371
+[2900]  training's binary_logloss: 0.286537     valid_1's binary_logloss: 0.384989
+[3000]  training's binary_logloss: 0.281382     valid_1's binary_logloss: 0.383592
+[3100]  training's binary_logloss: 0.276114     valid_1's binary_logloss: 0.382132
+[3200]  training's binary_logloss: 0.2711       valid_1's binary_logloss: 0.380803
+[3300]  training's binary_logloss: 0.266178     valid_1's binary_logloss: 0.379445
+[3400]  training's binary_logloss: 0.261344     valid_1's binary_logloss: 0.37816
+[3500]  training's binary_logloss: 0.256971     valid_1's binary_logloss: 0.376986
+[3600]  training's binary_logloss: 0.252591     valid_1's binary_logloss: 0.375807
+[3700]  training's binary_logloss: 0.248275     valid_1's binary_logloss: 0.374676
+[3800]  training's binary_logloss: 0.244055     valid_1's binary_logloss: 0.373561
+[3900]  training's binary_logloss: 0.239889     valid_1's binary_logloss: 0.372384
+[4000]  training's binary_logloss: 0.235869     valid_1's binary_logloss: 0.371325
+[4100]  training's binary_logloss: 0.232334     valid_1's binary_logloss: 0.370322
+[4200]  training's binary_logloss: 0.228201     valid_1's binary_logloss: 0.369179
+[4300]  training's binary_logloss: 0.224057     valid_1's binary_logloss: 0.367982
+[4400]  training's binary_logloss: 0.220054     valid_1's binary_logloss: 0.366919
+[4500]  training's binary_logloss: 0.216513     valid_1's binary_logloss: 0.366102
+[4600]  training's binary_logloss: 0.213291     valid_1's binary_logloss: 0.365222
+[4700]  training's binary_logloss: 0.209775     valid_1's binary_logloss: 0.364347
+[4800]  training's binary_logloss: 0.206182     valid_1's binary_logloss: 0.363411
+[4900]  training's binary_logloss: 0.202758     valid_1's binary_logloss: 0.362557
+[5000]  training's binary_logloss: 0.199621     valid_1's binary_logloss: 0.361815
+[5100]  training's binary_logloss: 0.196395     valid_1's binary_logloss: 0.360983
+[5200]  training's binary_logloss: 0.193437     valid_1's binary_logloss: 0.360257
+[5300]  training's binary_logloss: 0.1903       valid_1's binary_logloss: 0.35945
+[5400]  training's binary_logloss: 0.187163     valid_1's binary_logloss: 0.358649
+[5500]  training's binary_logloss: 0.184272     valid_1's binary_logloss: 0.357861
+[5600]  training's binary_logloss: 0.18138      valid_1's binary_logloss: 0.357168
+[5700]  training's binary_logloss: 0.178602     valid_1's binary_logloss: 0.356408
+[5800]  training's binary_logloss: 0.175865     valid_1's binary_logloss: 0.355739
+[5900]  training's binary_logloss: 0.173148     valid_1's binary_logloss: 0.355069
+[6000]  training's binary_logloss: 0.17031      valid_1's binary_logloss: 0.354306
+[6100]  training's binary_logloss: 0.167625     valid_1's binary_logloss: 0.353657
+[6200]  training's binary_logloss: 0.165095     valid_1's binary_logloss: 0.35315
+[6300]  training's binary_logloss: 0.162617     valid_1's binary_logloss: 0.352555
+[6400]  training's binary_logloss: 0.160338     valid_1's binary_logloss: 0.352092
+[6500]  training's binary_logloss: 0.157962     valid_1's binary_logloss: 0.35147
+[6600]  training's binary_logloss: 0.155394     valid_1's binary_logloss: 0.350926
+[6700]  training's binary_logloss: 0.153042     valid_1's binary_logloss: 0.350268
+[6800]  training's binary_logloss: 0.150665     valid_1's binary_logloss: 0.34978
+[6900]  training's binary_logloss: 0.148295     valid_1's binary_logloss: 0.349252
+[7000]  training's binary_logloss: 0.146069     valid_1's binary_logloss: 0.34876
+[7100]  training's binary_logloss: 0.144059     valid_1's binary_logloss: 0.348373
+[7200]  training's binary_logloss: 0.141866     valid_1's binary_logloss: 0.347963
+[7300]  training's binary_logloss: 0.139679     valid_1's binary_logloss: 0.347597
+[7400]  training's binary_logloss: 0.137709     valid_1's binary_logloss: 0.347287
+[7500]  training's binary_logloss: 0.135851     valid_1's binary_logloss: 0.347021
+[7600]  training's binary_logloss: 0.134006     valid_1's binary_logloss: 0.346648
+[7700]  training's binary_logloss: 0.132202     valid_1's binary_logloss: 0.34628
+[7800]  training's binary_logloss: 0.130275     valid_1's binary_logloss: 0.345881
+[7900]  training's binary_logloss: 0.128447     valid_1's binary_logloss: 0.345502
+[8000]  training's binary_logloss: 0.126558     valid_1's binary_logloss: 0.345093
+[8100]  training's binary_logloss: 0.124889     valid_1's binary_logloss: 0.344861
+[8200]  training's binary_logloss: 0.123147     valid_1's binary_logloss: 0.344586
+[8300]  training's binary_logloss: 0.121471     valid_1's binary_logloss: 0.344311
+[8400]  training's binary_logloss: 0.119756     valid_1's binary_logloss: 0.34401
+[8500]  training's binary_logloss: 0.118103     valid_1's binary_logloss: 0.343744
+[8600]  training's binary_logloss: 0.116418     valid_1's binary_logloss: 0.343476
+[8700]  training's binary_logloss: 0.114774     valid_1's binary_logloss: 0.34317
+[8800]  training's binary_logloss: 0.113281     valid_1's binary_logloss: 0.342943
+[8900]  training's binary_logloss: 0.111776     valid_1's binary_logloss: 0.342725
+[9000]  training's binary_logloss: 0.110254     valid_1's binary_logloss: 0.342509
+[9100]  training's binary_logloss: 0.108643     valid_1's binary_logloss: 0.342305
+[9200]  training's binary_logloss: 0.107237     valid_1's binary_logloss: 0.34207
+[9300]  training's binary_logloss: 0.105806     valid_1's binary_logloss: 0.341892
+[9400]  training's binary_logloss: 0.104468     valid_1's binary_logloss: 0.341724
+[9500]  training's binary_logloss: 0.103007     valid_1's binary_logloss: 0.341506
+[9600]  training's binary_logloss: 0.101665     valid_1's binary_logloss: 0.341362
+[9700]  training's binary_logloss: 0.100338     valid_1's binary_logloss: 0.341201
+[9800]  training's binary_logloss: 0.0990735    valid_1's binary_logloss: 0.341009
+[9900]  training's binary_logloss: 0.0978133    valid_1's binary_logloss: 0.340891
+[10000] training's binary_logloss: 0.0965234    valid_1's binary_logloss: 0.340746
+Did not meet early stopping. Best iteration is:
+[10000] training's binary_logloss: 0.0965234    valid_1's binary_logloss: 0.340746
+Fold  5 AUC : 0.765949
+(307511,)
+Accuracy: 0.8576794250593477
+F1 score: 0.31930943308188814
+Recall: 0.4134944612286002
+Precision: 0.26007093995439573
+>Train: 0=189399, 1=16633, Test: 0=93287, 1=8192
+(101479,)
+Accuracy: 0.9155785926152209
+F1 score: 0.6261727102151241
+Recall: 0.8758544921875
+Precision: 0.4872665534804754
+                 precision    recall   f1score       support
+0             0   0.945680  0.896687  0.920532  56537.000000
+1             1   0.260071  0.413494  0.319309   4965.000000
+2      accuracy   0.857679  0.857679  0.857679      0.857679
+3     macro avg   0.602875  0.655091  0.619921  61502.000000
+4  weighted avg   0.890331  0.857679  0.871996  61502.000000
+Read test data
+Shape test data:  (48744, 121)
+Shape data for dashboard:  (48744, 4)
+Shape test data:  (48744, 380)
+sampled_data_1 (307511, 3)
+sampled_data_2 (307511, 3)
+sampled_data_3 (307511, 382)
+sampled_data (307511, 385)
+test (48744, 385)
+processed_data (25000, 385)

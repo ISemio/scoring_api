@@ -1,4 +1,3 @@
-
 # About model :
 LightGBM parameters found by Bayesian optimization ( https://github.com/fmfn/BayesianOptimization )
 StratifiedKFold
