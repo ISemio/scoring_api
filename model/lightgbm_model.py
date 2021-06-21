@@ -402,15 +402,28 @@ def display_importances(feature_importance_df_):
 
     best_features = feature_importance_df_.loc[
         feature_importance_df_.feature.isin(cols)]
+    
+    list_features = best_features[["feature", "importance"]].groupby(
+        "feature").mean().sort_values(
+            by="importance", ascending=False)[:15].reset_index()
 
-    plt.figure(figsize=(8, 10))
-    sns.barplot(
-        x="importance",
-        y="feature",
-        data=best_features.sort_values(by="importance", ascending=False))
-    plt.title('LightGBM Features (avg over folds)')
+    plt.figure(figsize=(7, 7))
+    g = sns.barplot(
+            x="importance",
+            y="feature",
+            data=list_features.sort_values(by="importance", ascending=False))
+    plt.title('LightGBM TOP 15 Features (avg over folds)', color='white', size=14)
+    for tick_label in g.axes.get_yticklabels():
+        tick_label.set_color("white")
+        tick_label.set_fontsize("10")
+    for tick_label in g.axes.get_xticklabels():
+        tick_label.set_color("white")
+        tick_label.set_fontsize("10")
+
     plt.tight_layout()
-    plt.savefig(path[:-12]+'graphs\\lgbm_importances-01.png')
+    plt.xlabel('importance', color='white')
+    plt.ylabel(None, color='white')
+    plt.savefig(path[:-12]+'graphs\\features_importances.png')
 
     return best_features
 
@@ -510,22 +523,35 @@ if __name__ == '__main__':
     print('Shape data: ', data.shape)
     ids_origin = data['SK_ID_CURR']
 
-    # Columns for dashboard
-    df_data_db = data[['SK_ID_CURR','CODE_GENDER', 'NAME_FAMILY_STATUS']]
-    df_data_db = df_data_db.rename(columns={'CODE_GENDER':'Gender', 'NAME_FAMILY_STATUS':'Family_status'})
-    df_data_db['Age'] = abs(round(data['DAYS_BIRTH']/365))
-    print('Shape data for dashboard: ', df_data_db.shape)
-
     # Defining columns to keep
     y = data['TARGET']
     data = data.drop(columns=['TARGET'])
     print('Shape data: ', data.shape)
+    
+    MISSING_DATA_PATH = path[:-12]+'src\\missing_cols_40perc_list' + '.sav'
+    missing_cols = pickle.load(open(MISSING_DATA_PATH, 'rb'))
+    print('missing_cols', len(missing_cols))
+    data = data.drop(columns=missing_cols)
+
+    # Replace the anomalous values with median
+    median = data['DAYS_EMPLOYED'].median()
+    data['DAYS_EMPLOYED'].replace({365243: median, 0: median}, inplace = True)
+
+    # Columns for dashboard
+    df_data_db = data[['SK_ID_CURR','CODE_GENDER', 'NAME_FAMILY_STATUS', 'DAYS_EMPLOYED', 'DAYS_REGISTRATION']]
+    df_data_db = df_data_db.rename(columns={'CODE_GENDER':'Gender', 'NAME_FAMILY_STATUS':'Family_status',
+    'DAYS_EMPLOYED':'DAYS EMPLOYED', 'DAYS_REGISTRATION':'DAYS REGISTRATION'})
+    df_data_db['DAYS EMPLOYED'] = abs(df_data_db['DAYS EMPLOYED'])
+    df_data_db['DAYS REGISTRATION'] = abs(df_data_db['DAYS REGISTRATION'])
+    df_data_db['Age'] = abs(round(data['DAYS_BIRTH']/365))
+    print('Shape data for dashboard: ', df_data_db.shape)
 
     # Processed data
     ids = data['SK_ID_CURR']
     data = data_prep(data)
     print('Shape data: ', data.shape)
     cols_2_keep = data.columns
+    print('cols_2_keep', len(cols_2_keep))
 
     
     # Training and prediction for application_train
@@ -546,12 +572,20 @@ if __name__ == '__main__':
     test = pd.read_csv(path + 'application_test.csv')
     print('Shape test data: ', test.shape)
 
+    # Replace the anomalous values with median
+    median = test['DAYS_EMPLOYED'].median()
+    test['DAYS_EMPLOYED'].replace({365243: median, 0: median}, inplace = True)
+
     # Columns for dashboard
-    df_test_db = test[['SK_ID_CURR','CODE_GENDER', 'NAME_FAMILY_STATUS']]
-    df_test_db = df_test_db.rename(columns={'CODE_GENDER':'Gender', 'NAME_FAMILY_STATUS':'Family_status'})
+    df_test_db = test[['SK_ID_CURR','CODE_GENDER', 'NAME_FAMILY_STATUS', 'DAYS_EMPLOYED', 'DAYS_REGISTRATION']]
+    df_test_db = df_test_db.rename(columns={'CODE_GENDER':'Gender', 'NAME_FAMILY_STATUS':'Family_status',
+    'DAYS_EMPLOYED':'DAYS EMPLOYED', 'DAYS_REGISTRATION':'DAYS REGISTRATION'})
+    df_test_db['DAYS EMPLOYED'] = abs(df_test_db['DAYS EMPLOYED'])
+    df_test_db['DAYS REGISTRATION'] = abs(df_test_db['DAYS REGISTRATION'])
     df_test_db['Age'] = abs(round(test['DAYS_BIRTH']/365))
     print('Shape data for dashboard: ', df_test_db.shape)
-
+    
+    # Processed test data
     ids_test = test['SK_ID_CURR']
     test = data_prep_predict(test, avg_buro, avg_prev, avg_pos, avg_cc_bal, avg_inst, cols_2_keep)
     print('Shape test data: ', test.shape)
@@ -597,3 +631,12 @@ if __name__ == '__main__':
     print('processed_data', processed_data.shape)
     processed_data.to_csv(PROCESSED_DATA_PATH, index=False)
     pickle.dump(cols_2_keep, open(path[:-12]+'src\\cols_2_keep.sav', 'wb'))
+
+
+# LightGBM is a gradient boosting framework that uses tree based learning algorithms. 
+# It is designed to be distributed and efficient with the following advantages:
+# Faster training speed and higher efficiency.
+# Lower memory usage.
+# Better accuracy.
+# Support of parallel, distributed, and GPU learning.
+# Capable of handling large-scale data.
